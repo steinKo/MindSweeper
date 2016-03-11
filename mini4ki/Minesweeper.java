@@ -21,7 +21,7 @@ public class Minesweeper {
 		int result = 0;
 		while (true) {
 
-			field.printer.show(field.maksimumNuberofRows(),field.maksimumNumberofColumns(),field);
+			printer.show(field);
 			printer.nameMessage();
 			String input = command();
 

@@ -62,15 +62,21 @@ public class Ranking{
 		while(unsorted){
 			unsorted=false;
 			for(int i=0;i<(last-1);i++){
-				if(record[i+1]>record[i]){
-					int swapR=record[i];{
-						record[i]=record[i+1];{
-							unsorted = swap(i, swapR);
-						}
-					}
+				unsorted = swap(unsorted, i);
+			}
+		}
+	}
+
+
+	private boolean swap(boolean unsorted, int i) {
+		if(record[i+1]>record[i]){
+			int swapR=record[i];{
+				record[i]=record[i+1];{
+					unsorted = swap(i, swapR);
 				}
 			}
 		}
+		return unsorted;
 	}
 
 

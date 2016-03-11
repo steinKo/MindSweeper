@@ -40,9 +40,11 @@ public class Printer {
 		System.out.print(row+" |");
 	}
 
-	void printMineRow(MineField mineField, int row, int maximumColumns) {
-		for(int col=0;col<maximumColumns;col++){
-			System.out.print(" "+mineField.drawChar(row,col));
+	
+	
+	void printMineRow(MineField mineField, int row) {
+		for(int col=0;col<mineField.maksimumNumberofColumns();col++){
+			System.out.print(" "+mineField.printer.drawChar(mineField, row,col));
 			
 		}
 	}
@@ -70,15 +72,25 @@ public class Printer {
 	void rowMessage(int masimumNumberOfRows, MineField mineField, int maksimumNumbersOfColumns) {
 		for(int row=0;row<masimumNumberOfRows;row++){
 			printRowNumber(row);
-			printMineRow(mineField, row, maksimumNumbersOfColumns);
+			printMineRow(mineField, row);
+			mindFiledBoarderMessag();
+		}
+	}
+	
+	void rowMessage(MineField mineField) {
+		for(int row=0;row< mineField.maksimumNuberofRows();row++){
+			printRowNumber(row);
+			printMineRow(mineField, row);
 			mindFiledBoarderMessag();
 		}
 	}
 
-	public void show(int maxumumNumberOfRows, int maximumNumberOfColumns, MineField mineField) {
+
+	
+	public void show(MineField mineField) {
 		printColumNumbers();
 		printColumnBoarder();
-		rowMessage(maxumumNumberOfRows, mineField, maximumNumberOfColumns);
+		rowMessage(mineField);
 		printColumnBoarder();
 	}
 
@@ -97,6 +109,36 @@ public class Printer {
 		
 		default:return 'X';
 		}
+	}
+
+	char drawChar(MineField mineField, int row, int col) {
+		
+		final boolean[][] mines;
+		final boolean[][]visible;
+		final boolean boom;
+		
+		int minesInNeigborhood=0;
+		
+		mines = mineField.mines();
+		visible = mineField.visible();
+		boom = mineField.getBoom();
+		
+		if(visible[row][col]){
+			if(mines[row][col])
+				return '*';
+			    minesInNeigborhood = mineField.numberOfMinesinNeighborhood(row, col, minesInNeigborhood);
+		}
+		else{
+			if(boom){
+				return '-';
+			}
+			{
+				
+				
+				return '?';
+			}
+		}
+		return convertMinesInNegborhood(minesInNeigborhood);
 	}
 
 	static void stepOnABombMesssag(int result) {

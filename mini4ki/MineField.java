@@ -2,7 +2,8 @@ import java.util.Random;
 
 class MineField{
 
-	private boolean[][] mines,visible;
+	private boolean[][] mines;
+	private boolean[][]visible;
 	private boolean boom;
 	private final int rowMax = 5;
 	private final int colMax = 10;
@@ -15,13 +16,13 @@ class MineField{
 		boom=false;
 		
 		createMineField();
-		
 		placeTheMines();
 	}
 	
 	private void placeTheMines() {
 		int counter2=15;
-		int randomRow,randomCol;
+		int randomRow;
+		int randomCol;
 		Random RGenerator=new Random();
 		
 		while(counter2>0){
@@ -57,38 +58,23 @@ class MineField{
 	private void boom() {
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
-				if(mines[row][col]){
-					visible[row][col]=true;
-				}
+				makeVisible(row, col);
 			}
 		}
 		boom=true;
-		printer.show(rowMax, colMax, this);
+		printer.show(this);
 		
 		
 	}
 
-
-	char drawChar(int row, int col) {
-		int minesInNeigborhood=0;
-		if(visible[row][col]){
-			if(mines[row][col])
-				return '*';
-			    minesInNeigborhood = numberOfMinesinNeighborhood(row, col, minesInNeigborhood);
+	private void makeVisible(int row, int col) {
+		if(mines[row][col]){
+			visible[row][col]=true;
 		}
-		else{
-			if(boom){
-				return '-';
-			}
-			{
-				
-				
-				return '?';
-			}
-		}
-		return printer.convertMinesInNegborhood(minesInNeigborhood);
 	}
-	private int numberOfMinesinNeighborhood(int row, int col, int count) {
+
+
+	int numberOfMinesinNeighborhood(int row, int col, int count) {
 		for(int irow=row-1;irow<=row+1;irow++){
 		   for(int icol=col-1;icol<=col+1;icol++){
 			    count = countMines(count, irow, icol);
@@ -96,6 +82,20 @@ class MineField{
 }
 		return count;
 	}
+	public boolean[][] mines() {
+		return mines;
+	}
+
+
+	public boolean[][] visible() {
+		return visible;
+	}
+
+
+	public void boom(boolean boom) {
+		this.boom = boom;
+	}
+
 	private int countMines(int count, int irow, int icol) {
 		if(icol>=0&&icol<colMax&&irow>=0&&irow<rowMax){
 			if(mines[irow][icol])
