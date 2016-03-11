@@ -21,7 +21,7 @@ public class Minesweeper {
 		int result = 0;
 		while (true) {
 
-			field.show();
+			field.printer.show(field.maksimumNuberofRows(),field.maksimumNumberofColumns(),field);
 			printer.nameMessage();
 			String input = command();
 
@@ -48,7 +48,9 @@ public class Minesweeper {
 			}
 
 			else if (field.getBoom()) {
-				return printStepOnABomb(result);
+				printer.stepOnABombMesssag(result);
+				rank.recordName(result);
+				return true;
 			}
 
 		}
@@ -59,11 +61,6 @@ public class Minesweeper {
 		Scanner in = new Scanner(System.in);
 		String input = in.nextLine();
 		return input;
-	}
-	private static boolean printStepOnABomb(int result) {
-		printer.stepOnABombMesssag(result);
-		rank.recordName(result);
-		return true;
 	}
 	private static boolean gameWon(int result) {
 		printer.wonMessag();

@@ -6,22 +6,23 @@ public class Ranking{
 	private String[] name;
 	private int[] record;
 	private int last;
+	private Printer printer;
 	
 	Ranking(){
 		name=new String[MAX_PEOPLE_LIMIT];
 		record=new int[MAX_PEOPLE_LIMIT];
-		
+		printer = new Printer();
 		last=0;
 		
 	}
 
 
 	public void recordName(int result) {
-		System.out.print("\n Please enter your name -");
+		printer.enterNameMessage();
 		Scanner in=new Scanner(System.in);
 		String newName=in.nextLine();
 		if((last==MAX_PEOPLE_LIMIT)&&record[MAX_PEOPLE_LIMIT-1]>result){
-			System.out.println("\nSorry you cannot enter top "+(MAX_PEOPLE_LIMIT)+" players");
+			printer.maxLimitofPlayerMessage(MAX_PEOPLE_LIMIT);
 			return;
 		}
 		else if(last==MAX_PEOPLE_LIMIT){
@@ -44,16 +45,16 @@ public class Ranking{
 
 	public void show() {
 		if(last==0){
-			System.out.println("Still no results");
+			printer.noResultMessage();
 			return;
 		}
-		System.out.println("N Name\t\tresult");
+		printer.resultHeaderMessage();
 		for(int i=0;i<last;i++){
-			System.out.println((i+1)+" "+name[i]+"\t"+record[i]);
+			printer.resultMessage(i, name, record);
 		}
 	}
-	
-	
+
+
 	private void sort(){
 		if(last<2)
 			return;

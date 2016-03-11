@@ -6,9 +6,10 @@ class MineField{
 	private boolean boom;
 	private final int rowMax = 5;
 	private final int colMax = 10;
+	Printer printer;
 	
 	MineField(){
-		
+		printer =new Printer();
 		mines=new boolean[rowMax][colMax];
 		visible=new boolean[rowMax][colMax];
 		boom=false;
@@ -17,6 +18,7 @@ class MineField{
 		
 		placeTheMines();
 	}
+	
 	private void placeTheMines() {
 		int counter2=15;
 		int randomRow,randomCol;
@@ -61,22 +63,18 @@ class MineField{
 			}
 		}
 		boom=true;
-		show();
+		printer.show(rowMax, colMax, this);
 		
 		
 	}
 
 
-	private char drawChar(int row, int col) {
-		int count=0;
+	char drawChar(int row, int col) {
+		int minesInNeigborhood=0;
 		if(visible[row][col]){
 			if(mines[row][col])
 				return '*';
-			    for(int irow=row-1;irow<=row+1;irow++){
-				   for(int icol=col-1;icol<=col+1;icol++){
-					    count = countMines(count, irow, icol);
-				}
-			}
+			    minesInNeigborhood = numberOfMinesinNeighborhood(row, col, minesInNeigborhood);
 		}
 		else{
 			if(boom){
@@ -88,20 +86,15 @@ class MineField{
 				return '?';
 			}
 		}
-		switch(count){
-		case 0:return '0';
-		case 1:return '1';
-		case 2:return '2';
-		case 3:return '3';
-		case 4:return '4';
-		case 5:return '5';
-		case 6:return '6';
-		case 7:return '7';
-		case 8:return '8';
-		
-		
-		default:return 'X';
+		return printer.convertMinesInNegborhood(minesInNeigborhood);
+	}
+	private int numberOfMinesinNeighborhood(int row, int col, int count) {
+		for(int irow=row-1;irow<=row+1;irow++){
+		   for(int icol=col-1;icol<=col+1;icol++){
+			    count = countMines(count, irow, icol);
 		}
+}
+		return count;
 	}
 	private int countMines(int count, int irow, int icol) {
 		if(icol>=0&&icol<colMax&&irow>=0&&irow<rowMax){
@@ -115,7 +108,12 @@ class MineField{
 		return boom;
 	}
 
-
+    public int maksimumNuberofRows( )
+{
+		return rowMax; 
+		
+	}
+     
 	public boolean legalMoveString(String input) {
 		String[] separated=input.split(" ");
 		int row;
@@ -130,7 +128,7 @@ class MineField{
 			}
 		}
 		catch(Exception e){
-			System.out.println("\nInvalid Input!");
+			printer.revealAreaMessage();
 			return false;
 		}
 		
@@ -143,12 +141,10 @@ class MineField{
 			return false;
 		}
 	}
-
-
 	private boolean legalMoveValue(int row, int col) {
 		
 		if(visible[row][col]){
-			System.out.println("You stepped in allready revealed area!");
+			printer.revealeAreaMessage();
 			return false;
 		}
 		else{
@@ -162,31 +158,9 @@ class MineField{
 		
 		return true;
 	}
-	public void show() {
-		printColumNumbers();
-		printColumnBoarder();
-		printRow();
-		printColumnBoarder();
-	}
-	private void printRow() {
-		for(int row=0;row<rowMax;row++){
-			System.out.print(row+" |");
-			printMineRow(row);
-			System.out.println(" |");
-		}
-	}
-	private void printMineRow(int row) {
-		for(int col=0;col<colMax;col++){
-			System.out.print(" "+drawChar(row,col));
-			
-		}
-	}
-	private void printColumNumbers() {
-		System.out.println("\n    0 1 2 3 4 5 6 7 8 9 ");
+	public int maksimumNumberofColumns() {
 		
-	}
-	private void printColumnBoarder() {
-		System.out.println("   ---------------------");
+		return colMax;
 	}
 	
 }
