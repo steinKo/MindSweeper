@@ -55,7 +55,8 @@ public class Ranking{
 	
 	
 	private void sort(){
-		if(last<2) return;
+		if(last<2)
+			return;
 		boolean unsorted=true;
 		while(unsorted){
 			unsorted=false;
@@ -63,15 +64,22 @@ public class Ranking{
 				if(record[i+1]>record[i]){
 					int swapR=record[i];{
 						record[i]=record[i+1];{
-							record[i+1]=swapR;
-							String swapN=name[i];
-							name[i]=name[i+1];
-							name[i+1]=swapN;
-							unsorted=true;
+							unsorted = swap(i, swapR);
 						}
 					}
 				}
 			}
 		}
+	}
+
+
+	private boolean swap(int i, int swapR) {
+		boolean unsorted;
+		record[i+1]=swapR;
+		String swapN=name[i];
+		name[i]=name[i+1];
+		name[i+1]=swapN;
+		unsorted=true;
+		return unsorted;
 	}
 }

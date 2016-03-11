@@ -70,12 +70,11 @@ class MineField{
 	private char drawChar(int row, int col) {
 		int count=0;
 		if(visible[row][col]){
-			if(mines[row][col]) return '*';
-			for(int irow=row-1;irow<=row+1;irow++){
-				for(int icol=col-1;icol<=col+1;icol++){
-					if(icol>=0&&icol<colMax&&irow>=0&&irow<rowMax){
-						if(mines[irow][icol]) count++;
-					}
+			if(mines[row][col])
+				return '*';
+			    for(int irow=row-1;irow<=row+1;irow++){
+				   for(int icol=col-1;icol<=col+1;icol++){
+					    count = countMines(count, irow, icol);
 				}
 			}
 		}
@@ -103,6 +102,13 @@ class MineField{
 		
 		default:return 'X';
 		}
+	}
+	private int countMines(int count, int irow, int icol) {
+		if(icol>=0&&icol<colMax&&irow>=0&&irow<rowMax){
+			if(mines[irow][icol])
+				count++;
+		}
+		return count;
 	}
 	public boolean getBoom(){
 		

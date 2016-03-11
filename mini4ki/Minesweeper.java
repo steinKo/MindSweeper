@@ -1,17 +1,18 @@
 import java.util.Scanner;
 
+
 public class Minesweeper {
 
+	private static Printer printer;
 	private static MineField field;
 	private static Ranking rank;	
 	public static void main(String[] args) {
 		rank=new Ranking();
-		mainMessage()
-		
-		;
+		printer=new Printer();
+		printer.startMessage();
 		while(gameCountinue());
-		System.out.println("\nThank you for playing :) Have a nice day!");
-	}	
+		printer.endMessage();
+	}
 	private static boolean gameCountinue()
 
 	
@@ -21,9 +22,8 @@ public class Minesweeper {
 		while (true) {
 
 			field.show();
-			System.out.print("\nPlease enter your move(row col): ");
-			Scanner in = new Scanner(System.in);
-			String input = in.nextLine();
+			printer.nameMessage();
+			String input = command();
 
 			if (input.equals("top")) {
 				rank.show();
@@ -42,36 +42,35 @@ public class Minesweeper {
 			if (field.legalMoveString(input)) {
 				result++;
 				if (result == 35) {
-					System.out.println("Congratulations you WON the game!");
-					{
-						rank.recordName(result);
-						{
-							return true;
-						}
-					}
+					return gameWon(result);
 				}
 				continue;
 			}
 
 			else if (field.getBoom()) {
-				System.out.println("\nBooooooooooooooooooooooooooooom!You stepped on a mine!You survived " + result + " turns");
-				rank.recordName(result);
-				return true;
+				return printStepOnABomb(result);
 			}
 
 		}
 
 
 		}
-
-	
-	private static void mainMessage(){
-		System.out.println("Welcome to Minesweeper!");
-		System.out.println("To play just input some coordinates and try not to step ont mine :)");
-		System.out.println("Usefull commands:");
-		System.out.println("restart- Starts a new game.");
-		System.out.println("exit- Quits the game.");
-		System.out.println("top- Reveals the top scoreboard.");
-		System.out.println("Have Fun !");
+	private static String command() {
+		Scanner in = new Scanner(System.in);
+		String input = in.nextLine();
+		return input;
 	}
+	private static boolean printStepOnABomb(int result) {
+		printer.stepOnABombMesssag(result);
+		rank.recordName(result);
+		return true;
+	}
+	private static boolean gameWon(int result) {
+		printer.wonMessag();
+		rank.recordName(result);
+		return true;
+			
+		}
+		
+		
 }
