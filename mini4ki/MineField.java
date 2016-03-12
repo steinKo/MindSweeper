@@ -8,9 +8,11 @@ class MineField{
 	private final int rowMax = 5;
 	private final int colMax = 10;
 	Printer printer;
+	Move move;
 	
 	MineField(){
 		printer =new Printer();
+		move =new Move();
 		mines=new boolean[rowMax][colMax];
 		visible=new boolean[rowMax][colMax];
 		boom=false;
@@ -30,7 +32,7 @@ class MineField{
 			randomRow=Math.abs(RGenerator.nextInt()%rowMax);
 			randomCol=Math.abs(RGenerator.nextInt()%colMax);
 			
-			if(trymove(randomRow,randomCol)){
+			if(move.trymove(randomRow,randomCol,this )){
 				counter2--;
 			}
 		}
@@ -46,16 +48,7 @@ class MineField{
 		mines[row][col]=false;
 		visible[row][col]=false;
 	}	
-	private boolean trymove(int randomRow, int randomCol) {
-		if(mines[randomRow][randomCol]){
-			return false;
-		}
-		else{
-			mines[randomRow][randomCol]=true;
-			return true;
-		}
-	}
-	private void boom() {
+	void boom() {
 		for(int row=0;row<rowMax;row++){
 			for(int col=0;col<colMax;col++){
 				makeVisible(row, col);
@@ -108,57 +101,13 @@ class MineField{
 		return boom;
 	}
 
-    public int maksimumNuberofRows( )
+    public int maksimumNumberOfRows( )
 {
 		return rowMax; 
 		
 	}
      
-	public boolean legalMoveString(String input) {
-		String[] separated=input.split(" ");
-		int row;
-		int col;
-		try{
-			
-			
-			row=Integer.parseInt(separated[0]);
-			col=Integer.parseInt(separated[1]);
-			if(row<0||col<0||row>=rowMax||col>=colMax){
-				throw new java.io.IOException();
-			}
-		}
-		catch(Exception e){
-			printer.revealAreaMessage();
-			return false;
-		}
-		
-		if(legalMoveValue(row,col)){
-			return true;
-			
-			
-		}
-		else{
-			return false;
-		}
-	}
-	private boolean legalMoveValue(int row, int col) {
-		
-		if(visible[row][col]){
-			printer.revealeAreaMessage();
-			return false;
-		}
-		else{
-			visible[row][col]=true;
-		}
-		
-		if(mines[row][col]){
-			boom();
-			return false;
-		}
-		
-		return true;
-	}
-	public int maksimumNumberofColumns() {
+	public int maksimumNumberOfColumns() {
 		
 		return colMax;
 	}

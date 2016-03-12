@@ -43,7 +43,7 @@ public class Printer {
 	
 	
 	void printMineRow(MineField mineField, int row) {
-		for(int col=0;col<mineField.maksimumNumberofColumns();col++){
+		for(int col=0;col<mineField.maksimumNumberOfColumns();col++){
 			System.out.print(" "+mineField.printer.drawChar(mineField, row,col));
 			
 		}
@@ -69,16 +69,10 @@ public class Printer {
 		System.out.println((moves+1)+" "+names[moves]+"\t"+records[moves]);
 	}
 
-	void rowMessage(int masimumNumberOfRows, MineField mineField, int maksimumNumbersOfColumns) {
-		for(int row=0;row<masimumNumberOfRows;row++){
-			printRowNumber(row);
-			printMineRow(mineField, row);
-			mindFiledBoarderMessag();
-		}
-	}
+	
 	
 	void rowMessage(MineField mineField) {
-		for(int row=0;row< mineField.maksimumNuberofRows();row++){
+		for(int row=0;row< mineField.maksimumNumberOfRows();row++){
 			printRowNumber(row);
 			printMineRow(mineField, row);
 			mindFiledBoarderMessag();
@@ -149,7 +143,7 @@ public class Printer {
 		System.out.println("Congratulations you WON the game!");
 	}
 
-	static void nameMessage() {
+	static void moveMessage() {
 		System.out.print("\nPlease enter your move(row col): ");
 	}
 	

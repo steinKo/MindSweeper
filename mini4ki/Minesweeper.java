@@ -22,7 +22,7 @@ public class Minesweeper {
 		while (true) {
 
 			printer.show(field);
-			printer.nameMessage();
+			printer.moveMessage();
 			String input = command();
 
 			if (input.equals("top")) {
@@ -39,7 +39,7 @@ public class Minesweeper {
 				rank.recordName(result);
 				return false;
 			}
-			if (field.legalMoveString(input)) {
+			if (field.move.legalMoveString(field, input)) {
 				result++;
 				if (result == 35) {
 					return gameWon(result);
