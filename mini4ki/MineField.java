@@ -22,18 +22,18 @@ class MineField{
 	}
 	
 	private void placeTheMines() {
-		int counter2=15;
+		int leftToPlace=15;
 		int randomRow;
 		int randomCol;
-		Random RGenerator=new Random();
+		Random randomr=new Random();
 		
-		while(counter2>0){
+		while(leftToPlace>0){
 			
-			randomRow=Math.abs(RGenerator.nextInt()%rowMax);
-			randomCol=Math.abs(RGenerator.nextInt()%colMax);
+			randomRow=Math.abs(randomr.nextInt()%rowMax);
+			randomCol=Math.abs(randomr.nextInt()%colMax);
 			
-			if(move.trymove(randomRow,randomCol,this )){
-				counter2--;
+			if(placeAMine(randomRow,randomCol )){
+				leftToPlace--;
 			}
 		}
 	}
@@ -110,6 +110,18 @@ class MineField{
 	public int maksimumNumberOfColumns() {
 		
 		return colMax;
+	}
+
+	boolean placeAMine(int randomRow, int randomCol) {
+		boolean[][] mines;
+		mines =mines();
+		if(mines[randomRow][randomCol]){
+			return false;
+		}
+		else{
+			mines[randomRow][randomCol]=true;
+			return true;
+		}
 	}
 	
 }

@@ -50,16 +50,4 @@ public class Move {
 		return true;
 	}
 
-	boolean trymove(int randomRow, int randomCol, MineField mineField) {
-		boolean[][] mines;
-		mines =mineField.mines();
-		if(mines[randomRow][randomCol]){
-			return false;
-		}
-		else{
-			mines[randomRow][randomCol]=true;
-			return true;
-		}
-	}
-
 }
